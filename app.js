@@ -7,8 +7,25 @@ const port = process.env.PORT;
 
 require('./auth.js')(app);
 
+const crypto = require('crypto');
+
 app.post("/shutdown", (req, res) => {
-    console.log(req);
+    if(req.ref != 'refs/heads/master') {
+        res.json({success: false});
+        return;
+    }
+
+    var signature = crypto.createHmac('sha1', process.env.SHUTDOWN_TOKEN)
+                          .update(req)
+                          .digest('hex');
+    console.log(signature);
+    console.log(req.headers.X-Hub-Signature);
+    if(signature != req.headers.X-Hub-Signature) {
+        res.json({success: false});
+        return;
+    }
+
+    process.exit(0);
 });
 
 if(process.env.ENV == 'production') {
