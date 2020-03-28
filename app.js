@@ -5,22 +5,28 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT;
 
+const bodyParser = require('body-parser');
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+app.use(bodyParser.json());
+
 require('./auth.js')(app);
 
 const crypto = require('crypto');
 
 app.post("/shutdown", (req, res) => {
-    if(req.ref != 'refs/heads/master') {
+    if(req.body.ref != 'refs/heads/master') {
         res.json({success: false});
         return;
     }
 
     var signature = crypto.createHmac('sha1', process.env.SHUTDOWN_TOKEN)
-                          .update(req)
+                          .update(JSON.stringify(req.body))
                           .digest('hex');
-    console.log(signature);
-    console.log(req.headers.X-Hub-Signature);
-    if(signature != req.headers.X-Hub-Signature) {
+    if(signature != req.headers['x-hub-signature'].substring(5)) {
         res.json({success: false});
         return;
     }
