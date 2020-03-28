@@ -8,7 +8,7 @@ module.exports = (app) => {
         baseURL: process.env.BASE_URL,
         issuerBaseURL: process.env.AUTH0_DOMAIN,
         clientID: process.env.AUTH0_CLIENT_ID,
-        appSessionSecret: process.env.SESSION_SECRET,
+        appSessionSecret: process.env.SESSION_SECRET
     };
 
     app.use(auth(config));

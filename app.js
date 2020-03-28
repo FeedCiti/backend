@@ -5,9 +5,9 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT;
 
-require('./auth.js')(app)
+require('./auth.js')(app);
 
-app.get("/shutdown", (req, res) => {
+app.post("/shutdown", (req, res) => {
     console.log(req);
 });
 
