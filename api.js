@@ -1,22 +1,23 @@
 module.exports = (app, mongoose) => {
 
     const { requiresAuth } = require("express-openid-connect");
+    const { Post, Bank } = require("./schema.js")(mongoose);
 
-    var Schema = mongoose.Schema;
-
-    var postSchema = new Schema({
-        user_email: String,
-        user_image: String,
-        first_name: String,
-        lat: Number,
-        lon: Number,
-        message: String,
-        date: Date,
-        give_type: String,
-        anonymous: Boolean
+    app.get('/api/banks', requiresAuth(), (req, res) => {
+        Bank.find({})
+        .exec()
+        .then(banks => {
+            res.status(200).json({
+                data: banks
+            });
+        })
+        .catch(err => {
+            res.status(400).json({
+                error: 'Could not retrieve banks'
+            });
+            console.log(err);
+        })
     });
-
-    var Post = mongoose.model("Post", postSchema);
 
     app.get('/api/givings', requiresAuth(), (req, res) => {
         Post.find({})
