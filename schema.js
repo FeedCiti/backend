@@ -9,7 +9,7 @@ module.exports = (mongoose) => {
         lon: Number,
         message: String,
         date: Date,
-        give_type: String,
+        give_type: Number,
         anonymous: Boolean
     });
 

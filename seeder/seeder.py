@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from faker import Faker
 from faker.providers import person
 
-# client = MongoClient('REVERTED FOR PUBLIC REPO')
+client = MongoClient('MONGO_URI')
 db = client.feedciti
 
 fake = Faker()
@@ -27,7 +27,7 @@ for i in range(125):
     lon = float(fake.longitude())
     message = fake.sentence()
     date = fake.date_time_between(start_date='-3d', end_date='now', tzinfo=None)
-    give_type = status[random.randint(0,3)]
+    give_type = random.randint(0,3)
     anonymous = fake.boolean()
     dictlist[i] = {
         'user_email': user_email,
