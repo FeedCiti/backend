@@ -48,7 +48,7 @@ module.exports = (app, mongoose, checkJwt) => {
      * All of the user's givings
      */
     app.get('/api/mygivings', checkJwt, (req, res) => {
-        Post.find({'user_email': req.openid.user.email})
+        Post.find({'user_email': req.user.email})
         .exec()
         .then(posts => {
             res.status(200).json({
@@ -115,9 +115,9 @@ module.exports = (app, mongoose, checkJwt) => {
     app.post('/api/give', checkJwt, (req, res) => {
         const post = new Post({
             _id: mongoose.Types.ObjectId(),
-            user_email: req.openid.user.email,
-            user_image: req.openid.user.picture,
-            first_name: req.openid.name.substr(0, req.openid.name.indexOf(' ')),
+            user_email: req.user.email,
+            user_image: req.user.picture,
+            first_name: req.user.name.substr(0, req.user.name.indexOf(' ')),
             lat: req.body.lat,
             lon: req.body.lon,
             message: req.body.message,
