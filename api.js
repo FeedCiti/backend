@@ -26,8 +26,8 @@ module.exports = (app, mongoose, checkJwt) => {
      * GET
      * All givings
      */
-    app.get('/api/givings', checkJwt, (req, res) => {
-        Post.find({})
+    app.get('/api/givings', (req, res) => {
+        Post.find({}).sort([['date', -1]]).limit(10)
         .exec()
         .then(posts => {
             res.status(200).json({
@@ -91,8 +91,8 @@ module.exports = (app, mongoose, checkJwt) => {
      * GET
      * Givings by specified email
      */
-    app.get('/api/givings/:email', checkJwt, (req, res) => {
-        Post.find({'user_email': req.params.email})
+    app.get('/api/givingsEmail', checkJwt, (req, res) => {
+        Post.find({'user_email': req.query.email})
         .exec()
         .then(posts => {
             res.status(200).json({
@@ -141,9 +141,9 @@ module.exports = (app, mongoose, checkJwt) => {
 
 
     app.get('/api/nearby', checkJwt, (req, res) => {
-        var lat = req.body.lat;
-        var lon = req.body.lon;
-        var dis = req.body.dis * 1.609344;
+        var lat = parseFloat(req.query.lat);
+        var lon = parseFloat(req.query.lon);
+        var dis = parseFloat(req.query.dis) * 1.609344;
 
         const PI = 3.141592653589793;
         const earthRadius = 6378;
