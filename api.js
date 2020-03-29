@@ -35,7 +35,7 @@ module.exports = (app, mongoose) => {
     });
 
     app.post('/api/give', requiresAuth(), (req, res) => {
-        const post = new User({
+        const post = new Post({
             _id: mongoose.Types.ObjectId(),
             user_email: req.openid.user.email,
             user_image: req.openid.user.picture,
