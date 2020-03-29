@@ -7,6 +7,7 @@ module.exports = (app, mongoose, checkJwt) => {
      * All food bank information
      */
     app.get('/api/banks', checkJwt, (req, res) => {
+        console.log('got here');
         Bank.find({})
         .exec()
         .then(banks => {
@@ -28,6 +29,26 @@ module.exports = (app, mongoose, checkJwt) => {
      */
     app.get('/api/givings', checkJwt, (req, res) => {
         Post.find({})
+        .exec()
+        .then(posts => {
+            res.status(200).json({
+                data: posts
+            });
+        })
+        .catch(err => {
+            res.status(400).json({
+                error: 'Could not retrieve posts' // TODO
+            });
+            console.log(err);
+        })
+    });
+
+    /**
+     * GET
+     * All of the user's givings
+     */
+    app.get('/api/mygivings', checkJwt, (req, res) => {
+        Post.find({'user_email': req.openid.user.email})
         .exec()
         .then(posts => {
             res.status(200).json({
