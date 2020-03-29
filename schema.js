@@ -1,4 +1,5 @@
 module.exports = (mongoose) => {
+    console.log(mongoose);
     var Schema = mongoose.Schema;
 
     var postSchema = new Schema({

@@ -18,8 +18,6 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true
 });
 
-console.log(mongoose);
-
 require('./auth.js')(app);
 require('./api.js')(app, mongoose);
 
