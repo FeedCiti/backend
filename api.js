@@ -1,9 +1,8 @@
-module.exports = (app, mongoose) => {
+module.exports = (app, mongoose, checkJwt) => {
 
-    const { requiresAuth } = require("express-openid-connect");
     const { Post, Bank } = require("./schema.js")(mongoose);
 
-    app.get('/api/banks', requiresAuth(), (req, res) => {
+    app.get('/api/banks', checkJwt, (req, res) => {
         Bank.find({})
         .exec()
         .then(banks => {
@@ -19,7 +18,7 @@ module.exports = (app, mongoose) => {
         })
     });
 
-    app.get('/api/givings', requiresAuth(), (req, res) => {
+    app.get('/api/givings', checkJwt, (req, res) => {
         Post.find({})
         .exec()
         .then(posts => {
@@ -35,7 +34,7 @@ module.exports = (app, mongoose) => {
         })
     });
 
-    app.post('/api/give', requiresAuth(), (req, res) => {
+    app.post('/api/give', checkJwt, (req, res) => {
         const post = new Post({
             _id: mongoose.Types.ObjectId(),
             user_email: req.openid.user.email,
