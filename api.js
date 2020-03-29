@@ -1,6 +1,7 @@
 module.exports = (app, mongoose) => {
 
     const { requiresAuth } = require("express-openid-connect");
+    console.log(require("./schema.js")(mongoose));
     const { Post, Bank } = require("./schema.js")(mongoose);
 
     app.get('/api/banks', requiresAuth(), (req, res) => {
