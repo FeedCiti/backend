@@ -7,7 +7,6 @@ module.exports = (app, mongoose, checkJwt) => {
      * All food bank information
      */
     app.get('/api/banks', checkJwt, (req, res) => {
-        console.log('got here');
         Bank.find({})
         .exec()
         .then(banks => {
@@ -141,7 +140,7 @@ module.exports = (app, mongoose, checkJwt) => {
     });
 
 
-    app.get('/api/nearbyBanks', checkJwt, (req, res) => {
+    app.get('/api/nearby', checkJwt, (req, res) => {
         var lat = req.body.lat;
         var lon = req.body.lon;
         var dis = req.body.dis * 1.609344;
