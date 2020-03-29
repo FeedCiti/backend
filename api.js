@@ -43,7 +43,7 @@ module.exports = (app, mongoose) => {
             lat: req.body.lat,
             lon: req.body.lon,
             message: req.body.message,
-            date: Date.now().toISOString(), // TODO does this properly save in mongo?
+            date: new Date().toISOString(), // TODO does this properly save in mongo?
             give_type: req.body.give_type,
             anonymous: req.body.anonymous
         });
