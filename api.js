@@ -139,4 +139,46 @@ module.exports = (app, mongoose, checkJwt) => {
             console.log(err);
         });
     });
+
+
+    app.get('/api/nearbyBanks', checkJwt, (req, res) => {
+        var lat = req.body.lat;
+        var lon = req.body.lon;
+        var dis = req.body.dis * 1.609344;
+
+        const PI = 3.141592653589793;
+        const earthRadius = 6378;
+
+        var upperLat = lat + (dis / earthRadius) * (180 / PI);
+        var lowerLat = lat - (dis / earthRadius) * (180 / PI);
+        var upperLon = lon + (dis / earthRadius) * (180 / PI) / Math.cos(lat * PI / 180);
+        var lowerLon = lon - (dis / earthRadius) * (180 / PI) / Math.cos(lat * PI / 180);
+
+        var getBanks = (posts) => {
+            Bank.find({'lat': {$gte: lowerLat, $lte: upperLat}, 'lon': {$gte: lowerLon, $lte: upperLon}})
+            .exec()
+            .then(banks => {
+                res.status(200).json({
+                    posts: posts,
+                    banks: banks
+                });
+            })
+            .catch(err => {
+                res.status(400).json({
+                    error: 'Could not retrieve banks' // TODO
+                });
+                console.log(err);
+            });
+        }
+
+        Post.find({'lat': {$gte: lowerLat, $lte: upperLat}, 'lon': {$gte: lowerLon, $lte: upperLon}})
+        .exec()
+        .then(posts => getBanks(posts))
+        .catch(err => {
+            res.status(400).json({
+                error: 'Could not retrieve posts' // TODO
+            });
+            console.log(err);
+        });
+    });
 }
