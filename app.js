@@ -19,6 +19,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 require('./auth.js')(app);
+require('./api.js')(app, mongoose);
 
 const crypto = require('crypto');
 

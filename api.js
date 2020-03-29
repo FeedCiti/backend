@@ -18,12 +18,20 @@ module.exports = (app, mongoose) => {
 
     var Post = mongoose.model("Post", postSchema);
 
-    app.get('/api/givings/global', requiresAuth(), (req, res) => {
-        res.send(JSON.stringify(req.openid.user));
-    });
-   
-    app.get('/api/givings/friends', requiresAuth(), (req, res) => {
-        res.send(JSON.stringify(req.openid.user));
+    app.get('/api/givings', requiresAuth(), (req, res) => {
+        Post.find({})
+        .exec()
+        .then(posts => {
+            res.status(200).json({
+                data: posts
+            });
+        })
+        .catch(err => {
+            res.status(400).json({
+                error: 'Could not retrieve posts'
+            });
+            console.log(err);
+        })
     });
 
     app.post('/api/give', requiresAuth(), (req, res) => {
