@@ -26,6 +26,6 @@ module.exports = (mongoose) => {
         zip: String
     });
 
-    var Post = mongoose.model("Post", postSchema);
-    var Bank = mongoose.model("Food_Bank", bankSchema);
+    Post: mongoose.model("Post", postSchema);
+    Bank: mongoose.model("Food_Bank", bankSchema);
 }
