@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true
 });
 
-const checkJwt = required('./jwt.js');
+const checkJwt = require('./jwt.js');
 require('./auth.js')(app, checkJwt);
 require('./api.js')(app, mongoose, checkJwt);
 
