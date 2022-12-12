@@ -4,7 +4,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "express-openid-connect": "^0.6.0",
     "express-session": "^1.17.0",
